@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - TradeVerse</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="navbar-brand">
+                <div class="logo-icon">TN</div>
+                <span>TradeVerse</span>
+            </a>
+            <div class="navbar-toggle" id="navbarToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="navbar-nav" id="navbarNav">
+                <li><a href="../index.html" class="nav-link">Home</a></li>
+                <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+                <li><a href="trade.html" class="nav-link">Trade</a></li>
+                <li><a href="portfolio.html" class="nav-link">Portfolio</a></li>
+                <li><a href="login.html" class="btn btn-outline btn-sm">Login</a></li>
+                <li><a href="register.html" class="btn btn-primary btn-sm">Sign Up</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Register Section -->
+    <section class="auth-container">
+        <div class="auth-card fade-in">
+            <div class="auth-header">
+                <h1>Create Account</h1>
+                <p>Start your paper trading journey today</p>
+            </div>
+
+            <!-- Alert for messages -->
+            <div id="registerAlert" class="alert hidden">
+                <span id="registerAlertMessage"></span>
+            </div>
+
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="fullName" class="form-label">Full Name</label>
+                    <input type="text" id="fullName" name="fullName" class="form-input" placeholder="Enter your full name" required minlength="3">
+                </div>
+                <div class="form-group">
+                    <label for="email" class="form-label">Email Address</label>
+                    <input type="email" id="email" name="email" class="form-input" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" id="password" name="password" class="form-input" placeholder="Create a password" required minlength="6">
+                    <span class="form-error" id="passwordError"></span>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword" class="form-label">Confirm Password</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" class="form-input" placeholder="Confirm your password" required>
+                    <span class="form-error" id="confirmPasswordError"></span>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block btn-lg">Create Account</button>
+            </form>
+
+            <div class="auth-footer">
+                <p>Already have an account? <a href="login.html">Sign in</a></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="copyright">
+                    &#169; 2026 TradeVerse. A CS College Project.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/auth.js"></script>
+</body>
+</html>

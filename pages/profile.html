@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - TradeVerse</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="navbar-brand">
+                <div class="logo-icon">TN</div>
+                <span>TradeVerse</span>
+            </a>
+            <div class="navbar-toggle" id="navbarToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="navbar-nav" id="navbarNav">
+                <li><a href="../index.html" class="nav-link">Home</a></li>
+                <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+                <li><a href="trade.html" class="nav-link">Trade</a></li>
+                <li><a href="portfolio.html" class="nav-link">Portfolio</a></li>
+                <li><a href="history.html" class="nav-link">History</a></li>
+                <li><a href="profile.html" class="nav-link active">Profile</a></li>
+                <li><button id="logoutBtn" class="btn btn-danger btn-sm">Logout</button></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Profile Content -->
+    <main class="dashboard-layout">
+        <div class="container">
+            <h1 class="mb-2">My Profile</h1>
+            <p class="mb-3">Manage your account and view your trading statistics</p>
+
+            <!-- Profile Header -->
+            <div class="profile-header">
+                <div class="profile-avatar" id="profileAvatar">T</div>
+                <div class="profile-info">
+                    <h2 id="profileName">Trader</h2>
+                    <p id="profileEmail">email@example.com</p>
+                    <p>Member since: <span id="joinDate">January 2026</span></p>
+                    <div class="profile-stats">
+                        <div class="profile-stat">
+                            <div class="value" id="totalTradesProfile">0</div>
+                            <div class="label">Total Trades</div>
+                        </div>
+                        <div class="profile-stat">
+                            <div class="value" id="winRate">0%</div>
+                            <div class="label">Win Rate</div>
+                        </div>
+                        <div class="profile-stat">
+                            <div class="value" id="profitFactor">&#8377;0</div>
+                            <div class="label">Realized P/L</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Account Settings -->
+            <div class="profile-section">
+                <h3>Account Settings</h3>
+                <form id="profileForm">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                        <div class="form-group">
+                            <label for="fullName" class="form-label">Full Name</label>
+                            <input type="text" id="fullName" class="form-input" placeholder="Your name">
+                        </div>
+                        <div class="form-group">
+                            <label for="email" class="form-label">Email Address</label>
+                            <input type="email" id="email" class="form-input" placeholder="Your email" readonly>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </form>
+                <div id="profileAlert" class="alert alert-success hidden mt-2">
+                    Profile updated successfully!
+                </div>
+            </div>
+
+            <!-- Trading Statistics -->
+            <div class="profile-section">
+                <h3>Trading Statistics</h3>
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem;">
+                    <div>
+                        <p style="color: var(--text-secondary); font-size: 0.875rem;">Buying Power</p>
+                        <p style="font-size: 1.25rem; font-weight: 600;" id="buyingPower">&#8377;10,00,000</p>
+                    </div>
+                    <div>
+                        <p style="color: var(--text-secondary); font-size: 0.875rem;">Total Invested</p>
+                        <p style="font-size: 1.25rem; font-weight: 600;" id="totalInvested">&#8377;0</p>
+                    </div>
+                    <div>
+                        <p style="color: var(--text-secondary); font-size: 0.875rem;">Holdings Value</p>
+                        <p style="font-size: 1.25rem; font-weight: 600;" id="holdingsValue">&#8377;0</p>
+                    </div>
+                    <div>
+                        <p style="color: var(--text-secondary); font-size: 0.875rem;">Unrealized P/L</p>
+                        <p style="font-size: 1.25rem; font-weight: 600;" id="unrealizedPL">&#8377;0</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profit/Loss Summary -->
+            <div class="card mb-3" style="background: linear-gradient(135deg, var(--secondary-bg), var(--tertiary-bg));">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem;">
+                    <div>
+                        <h3 style="margin: 0; font-size: 0.875rem; color: var(--text-secondary);">Realized Profit/Loss</h3>
+                        <p style="margin: 0.5rem 0 0; font-size: 2rem; font-weight: 700;" id="realizedPLProfile">&#8377;0</p>
+                        <p style="margin: 0.25rem 0 0; font-size: 0.875rem; color: var(--text-muted);">Total P/L from closed trades</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <p style="margin: 0; color: var(--text-secondary); font-size: 0.875rem;">Total Return</p>
+                        <p style="margin: 0.5rem 0 0; font-size: 1.5rem; font-weight: 700;" id="totalReturn">&#8377;0</p>
+                        <p style="margin: 0.25rem 0 0; font-size: 0.75rem; color: var(--text-muted);">Realized + Unrealized</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="profile-section">
+                <h3>Account Actions</h3>
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <button id="resetPortfolio" class="btn btn-secondary">Reset Portfolio</button>
+                    <button id="exportData" class="btn btn-secondary">Export Data</button>
+                    <button id="deleteAccount" class="btn btn-danger">Delete Account</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="copyright">
+                    &#169; 2026 TradeVerse. A CS College Project.
+                </div>
+                <div class="footer-links">
+                    <a href="dashboard.html" class="footer-link">Dashboard</a>
+                    <a href="trade.html" class="footer-link">Trade</a>
+                    <a href="portfolio.html" class="footer-link">Portfolio</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/data.js"></script>
+    <script src="../js/profile.js"></script>
+</body>
+</html>

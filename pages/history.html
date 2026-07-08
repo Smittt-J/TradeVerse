@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trade History - TradeVerse</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="navbar-brand">
+                <div class="logo-icon">TN</div>
+                <span>TradeVerse</span>
+            </a>
+            <div class="navbar-toggle" id="navbarToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="navbar-nav" id="navbarNav">
+                <li><a href="../index.html" class="nav-link">Home</a></li>
+                <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+                <li><a href="trade.html" class="nav-link">Trade</a></li>
+                <li><a href="portfolio.html" class="nav-link">Portfolio</a></li>
+                <li><a href="history.html" class="nav-link active">History</a></li>
+                <li><a href="profile.html" class="nav-link">Profile</a></li>
+                <li><button id="logoutBtn" class="btn btn-danger btn-sm">Logout</button></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- History Content -->
+    <main class="dashboard-layout">
+        <div class="container">
+            <h1 class="mb-2">Trade History</h1>
+            <p class="mb-3">View all your past transactions and realized profit/loss</p>
+
+            <!-- Summary Stats -->
+            <div class="portfolio-summary">
+                <div class="summary-item">
+                    <div class="summary-label">Total Trades</div>
+                    <div class="summary-value" id="totalTrades">0</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-label">Buy Orders</div>
+                    <div class="summary-value" id="buyOrders" style="color: var(--accent-success);">0</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-label">Sell Orders</div>
+                    <div class="summary-value" id="sellOrders" style="color: var(--accent-danger);">0</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-label">Total Volume</div>
+                    <div class="summary-value" id="totalVolume">&#8377;0</div>
+                </div>
+            </div>
+
+            <!-- Realized P/L Card -->
+            <div class="card mb-3" style="background: linear-gradient(135deg, var(--secondary-bg), var(--tertiary-bg));">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                    <div>
+                        <h3 style="margin: 0; font-size: 1rem; color: var(--text-secondary);">Total Realized Profit/Loss</h3>
+                        <p style="margin: 0.5rem 0 0; font-size: 2rem; font-weight: 700;" id="totalRealizedPL">&#8377;0</p>
+                        <p style="margin: 0.25rem 0 0; font-size: 0.875rem; color: var(--text-muted);">From all closed (sell) trades</p>
+                    </div>
+                    <div style="text-align: right;">
+                        <p style="margin: 0; color: var(--text-secondary);">Winning Trades</p>
+                        <p style="margin: 0.5rem 0 0; font-size: 1.25rem; font-weight: 600; color: var(--accent-success);" id="winningTrades">0</p>
+                    </div>
+                    <div style="text-align: right;">
+                        <p style="margin: 0; color: var(--text-secondary);">Losing Trades</p>
+                        <p style="margin: 0.5rem 0 0; font-size: 1.25rem; font-weight: 600; color: var(--accent-danger);" id="losingTrades">0</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filters -->
+            <div class="card mb-3">
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+                    <div style="flex: 1; min-width: 150px;">
+                        <label class="form-label">Filter by Type</label>
+                        <select id="filterType" class="form-select">
+                            <option value="all">All Trades</option>
+                            <option value="buy">Buy Only</option>
+                            <option value="sell">Sell Only</option>
+                        </select>
+                    </div>
+                    <div style="flex: 1; min-width: 150px;">
+                        <label class="form-label">Filter by Stock</label>
+                        <select id="filterStock" class="form-select">
+                            <option value="all">All Stocks</option>
+                        </select>
+                    </div>
+                    <div style="flex: 1; min-width: 150px;">
+                        <label class="form-label">Sort By</label>
+                        <select id="sortOrder" class="form-select">
+                            <option value="newest">Newest First</option>
+                            <option value="oldest">Oldest First</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Trade History Table -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">All Transactions</h3>
+                    <button id="clearHistory" class="btn btn-danger btn-sm">Clear History</button>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Date & Time</th>
+                                <th>Stock</th>
+                                <th>Type</th>
+                                <th>Qty</th>
+                                <th>Price</th>
+                                <th>Total</th>
+                                <th>Brokerage</th>
+                                <th>Realized P/L</th>
+                            </tr>
+                        </thead>
+                        <tbody id="historyBody">
+                        </tbody>
+                    </table>
+                </div>
+                <div id="noHistory" class="empty-state hidden">
+                    <div class="empty-state-icon">&#128203;</div>
+                    <h3>No trade history</h3>
+                    <p>Start trading to build your transaction history.</p>
+                    <a href="trade.html" class="btn btn-primary mt-2">Go to Trade</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="copyright">
+                    &#169; 2026 TradeVerse. A CS College Project.
+                </div>
+                <div class="footer-links">
+                    <a href="dashboard.html" class="footer-link">Dashboard</a>
+                    <a href="trade.html" class="footer-link">Trade</a>
+                    <a href="portfolio.html" class="footer-link">Portfolio</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/data.js"></script>
+    <script src="../js/history.js"></script>
+</body>
+</html>

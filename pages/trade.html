@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trade - TradeVerse</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="navbar-brand">
+                <div class="logo-icon">TN</div>
+                <span>TradeVerse</span>
+            </a>
+            <div class="navbar-toggle" id="navbarToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="navbar-nav" id="navbarNav">
+                <li><a href="../index.html" class="nav-link">Home</a></li>
+                <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+                <li><a href="trade.html" class="nav-link active">Trade</a></li>
+                <li><a href="portfolio.html" class="nav-link">Portfolio</a></li>
+                <li><a href="history.html" class="nav-link">History</a></li>
+                <li><a href="profile.html" class="nav-link">Profile</a></li>
+                <li><button id="logoutBtn" class="btn btn-danger btn-sm">Logout</button></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Trade Content -->
+    <main class="dashboard-layout">
+        <div class="container">
+            <h1 class="mb-2">Trade Stocks</h1>
+            <p class="mb-3">Buy and sell stocks with your virtual balance. Practice trading risk-free!</p>
+
+            <!-- Live Market Ticker -->
+            <div class="live-ticker" style="background: linear-gradient(135deg, var(--secondary-bg), var(--tertiary-bg)); border-radius: var(--radius-lg); padding: 0.5rem 1rem; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 1rem; overflow-x: auto; border: 1px solid var(--border-primary);">
+                <span style="display: flex; align-items: center; gap: 0.5rem; white-space: nowrap;">
+                    <span class="live-indicator" style="width: 8px; height: 8px; background: var(--accent-success); border-radius: 50%; animation: pulse 1.5s infinite;"></span>
+                    <strong style="font-size: 0.875rem;">LIVE</strong>
+                </span>
+                <div id="marketTicker" style="display: flex; gap: 1rem; overflow-x: auto;">
+                    <!-- Populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Main Content Grid -->
+            <div class="trade-grid">
+                <!-- Stock List -->
+                <div class="stock-list">
+                    <h3 style="margin-bottom: 1rem;">Available Stocks</h3>
+                    <div id="stockList">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Trade Form -->
+                <div class="trade-form">
+                    <div class="trade-form-header">
+                        <button type="button" class="trade-type-btn buy active" data-type="buy">BUY</button>
+                        <button type="button" class="trade-type-btn sell" data-type="sell">SELL</button>
+                    </div>
+
+                    <!-- Selected Stock Info -->
+                    <div class="stock-info" id="selectedStockInfo">
+                        <div class="stock-name" id="selectedStockName">Select a stock</div>
+                        <div class="stock-price" id="selectedStockPrice">--</div>
+                        <div class="stock-change" id="selectedStockChange">--</div>
+                    </div>
+
+                    <!-- Alert for messages -->
+                    <div id="tradeAlert" class="alert hidden">
+                        <span id="tradeAlertMessage"></span>
+                    </div>
+
+                    <form id="tradeForm">
+                        <div class="form-group">
+                            <label for="quantity" class="form-label">Quantity</label>
+                            <input type="number" id="quantity" name="quantity" class="form-input" placeholder="Enter quantity" min="1" value="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="price" class="form-label">Price (per share) - Live</label>
+                            <input type="number" id="price" name="price" class="form-input" placeholder="Price" step="0.01" readonly>
+                        </div>
+
+                        <!-- Trade Summary -->
+                        <div class="trade-summary">
+                            <div class="trade-summary-row">
+                                <span>Subtotal</span>
+                                <span id="subtotal">&#8377;0</span>
+                            </div>
+                            <div class="trade-summary-row">
+                                <span>Brokerage (0.1%)</span>
+                                <span id="brokerage">&#8377;0</span>
+                            </div>
+                            <div class="trade-summary-row">
+                                <span>Total Amount</span>
+                                <span id="totalAmount">&#8377;0</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-top: 1.5rem;">
+                            <div style="display: flex; justify-content: space-between; font-size: 0.875rem; color: var(--text-secondary);">
+                                <span>Available Balance:</span>
+                                <span id="availableBalance">&#8377;10,00,000</span>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-success btn-block btn-lg" id="submitTradeBtn">Buy Now</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Live Candlestick Chart -->
+            <div class="card mt-3">
+                <div class="chart-header">
+                    <div>
+                        <h2 class="chart-title" id="chartStockTitle">Select Stock</h2>
+                        <div style="font-size: 0.875rem; color: var(--text-secondary);">
+                            <span id="chartStockSymbol">--</span> |
+                            O: <span id="chartOpen">--</span> |
+                            H: <span id="chartHigh">--</span> |
+                            L: <span id="chartLow">--</span> |
+                            C: <span id="chartClose" style="font-weight: 600;">--</span>
+                            <span id="chartChange" style="margin-left: 0.5rem;"></span>
+                        </div>
+                    </div>
+                    <div class="chart-tabs">
+                        <button class="chart-tab active" data-period="1H">1H</button>
+                        <button class="chart-tab" data-period="1D">1D</button>
+                        <button class="chart-tab" data-period="1W">1W</button>
+                    </div>
+                </div>
+                <div id="candlestickChartContainer" style="width: 100%; height: 300px;"></div>
+            </div>
+
+            <!-- My Holdings Quick View -->
+            <div class="card mt-3">
+                <div class="card-header">
+                    <h3 class="card-title">My Holdings</h3>
+                    <a href="portfolio.html" class="nav-link" style="padding: 0;">View Full Portfolio</a>
+                </div>
+                <div id="holdingsPreview" class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Stock</th>
+                                <th>Qty</th>
+                                <th>Avg Price</th>
+                                <th>Current</th>
+                                <th>P/L</th>
+                            </tr>
+                        </thead>
+                        <tbody id="holdingsBody">
+                            <!-- Populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+                <div id="noHoldings" class="empty-state hidden">
+                    <div class="empty-state-icon">&#128178;</div>
+                    <h3>No holdings yet</h3>
+                    <p>Buy stocks to add them to your portfolio.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="copyright">
+                    &#169; 2026 TradeVerse. A CS College Project.
+                </div>
+                <div class="footer-links">
+                    <a href="dashboard.html" class="footer-link">Dashboard</a>
+                    <a href="portfolio.html" class="footer-link">Portfolio</a>
+                    <a href="history.html" class="footer-link">History</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/data.js"></script>
+    <script src="../js/candlestick.js"></script>
+    <script src="../js/trade.js"></script>
+</body>
+</html>

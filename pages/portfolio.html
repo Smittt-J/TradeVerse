@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - TradeVerse</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="navbar-brand">
+                <div class="logo-icon">TN</div>
+                <span>TradeVerse</span>
+            </a>
+            <div class="navbar-toggle" id="navbarToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="navbar-nav" id="navbarNav">
+                <li><a href="../index.html" class="nav-link">Home</a></li>
+                <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+                <li><a href="trade.html" class="nav-link">Trade</a></li>
+                <li><a href="portfolio.html" class="nav-link active">Portfolio</a></li>
+                <li><a href="history.html" class="nav-link">History</a></li>
+                <li><a href="profile.html" class="nav-link">Profile</a></li>
+                <li><button id="logoutBtn" class="btn btn-danger btn-sm">Logout</button></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Portfolio Content -->
+    <main class="dashboard-layout">
+        <div class="container">
+            <h1 class="mb-2">My Portfolio</h1>
+            <p class="mb-3">View and manage your stock holdings</p>
+
+            <!-- Portfolio Summary Cards -->
+            <div class="portfolio-summary">
+                <div class="summary-item">
+                    <div class="summary-label">Available Balance</div>
+                    <div class="summary-value" id="availableBalance">&#8377;10,00,000</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-label">Total Investment</div>
+                    <div class="summary-value" id="totalInvestment">&#8377;0</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-label">Current Value</div>
+                    <div class="summary-value" id="currentValue">&#8377;0</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-label">Total P/L</div>
+                    <div class="summary-value" id="totalPL">&#8377;0</div>
+                </div>
+            </div>
+
+            <!-- Holdings Table -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Stock Holdings</h3>
+                    <a href="trade.html" class="btn btn-primary btn-sm">Buy More</a>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Stock</th>
+                                <th>Symbol</th>
+                                <th>Quantity</th>
+                                <th>Avg Buy Price</th>
+                                <th>Current Price</th>
+                                <th>Invested Value</th>
+                                <th>Current Value</th>
+                                <th>P/L</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="holdingsBody">
+                            <!-- Populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+                <div id="noHoldings" class="empty-state hidden">
+                    <div class="empty-state-icon">&#128178;</div>
+                    <h3>No holdings yet</h3>
+                    <p>Start buying stocks to build your portfolio.</p>
+                    <a href="trade.html" class="btn btn-primary mt-2">Go to Trade</a>
+                </div>
+            </div>
+
+            <!-- Portfolio Allocation -->
+            <div class="card mt-3">
+                <div class="card-header">
+                    <h3 class="card-title">Portfolio Summary</h3>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; padding: 1rem 0;">
+                    <div>
+                        <p style="color: var(--text-secondary); font-size: 0.875rem;">Number of Stocks</p>
+                        <p style="font-size: 1.5rem; font-weight: 600;" id="numStocks">0</p>
+                    </div>
+                    <div>
+                        <p style="color: var(--text-secondary); font-size: 0.875rem;">Total Shares</p>
+                        <p style="font-size: 1.5rem; font-weight: 600;" id="totalShares">0</p>
+                    </div>
+                    <div>
+                        <p style="color: var(--text-secondary); font-size: 0.875rem;">Best Performer</p>
+                        <p style="font-size: 1.5rem; font-weight: 600; color: var(--accent-success);" id="bestPerformer">--</p>
+                    </div>
+                    <div>
+                        <p style="color: var(--text-secondary); font-size: 0.875rem;">Worst Performer</p>
+                        <p style="font-size: 1.5rem; font-weight: 600; color: var(--accent-danger);" id="worstPerformer">--</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="copyright">
+                    &#169; 2026 TradeVerse. A CS College Project.
+                </div>
+                <div class="footer-links">
+                    <a href="dashboard.html" class="footer-link">Dashboard</a>
+                    <a href="trade.html" class="footer-link">Trade</a>
+                    <a href="history.html" class="footer-link">History</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/portfolio.js"></script>
+</body>
+</html>

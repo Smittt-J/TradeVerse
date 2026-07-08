@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - TradeVerse</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="navbar-brand">
+                <div class="logo-icon">TN</div>
+                <span>TradeVerse</span>
+            </a>
+            <div class="navbar-toggle" id="navbarToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="navbar-nav" id="navbarNav">
+                <li><a href="../index.html" class="nav-link">Home</a></li>
+                <li><a href="dashboard.html" class="nav-link active">Dashboard</a></li>
+                <li><a href="trade.html" class="nav-link">Trade</a></li>
+                <li><a href="portfolio.html" class="nav-link">Portfolio</a></li>
+                <li><a href="history.html" class="nav-link">History</a></li>
+                <li><a href="profile.html" class="nav-link">Profile</a></li>
+                <li><button id="logoutBtn" class="btn btn-danger btn-sm">Logout</button></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Dashboard Content -->
+    <main class="dashboard-layout">
+        <div class="container">
+            <h1 class="mb-2">Dashboard</h1>
+            <p class="mb-3">Welcome back, <span id="userName">Trader</span>! Here's your portfolio overview.</p>
+
+            <!-- Live Market Status -->
+            <div class="live-ticker" style="background: linear-gradient(135deg, var(--secondary-bg), var(--tertiary-bg)); border-radius: var(--radius-lg); padding: 0.75rem 1rem; margin-bottom: 2rem; display: flex; align-items: center; gap: 1rem; overflow-x: auto; border: 1px solid var(--border-primary);">
+                <span style="display: flex; align-items: center; gap: 0.5rem; white-space: nowrap;">
+                    <span class="live-indicator" style="width: 8px; height: 8px; background: var(--accent-success); border-radius: 50%; animation: pulse 1.5s infinite;"></span>
+                    <strong>Live Market</strong>
+                </span>
+                <div id="marketTicker" style="display: flex; gap: 1.5rem; overflow-x: auto;">
+                    <!-- Populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Balance Cards -->
+            <div class="balance-grid">
+                <div class="balance-card">
+                    <div class="balance-label">&#128176; Virtual Balance</div>
+                    <div class="balance-value" id="virtualBalance">&#8377;10,00,000</div>
+                    <div class="balance-change positive">Available for trading</div>
+                </div>
+                <div class="balance-card">
+                    <div class="balance-label">&#128200; Total Investment</div>
+                    <div class="balance-value" id="totalInvestment">&#8377;0</div>
+                    <div class="balance-change">Amount invested in stocks</div>
+                </div>
+                <div class="balance-card">
+                    <div class="balance-label">&#128178; Portfolio Value</div>
+                    <div class="balance-value" id="portfolioValue">&#8377;0</div>
+                    <div class="balance-change" id="portfolioChange">Current value</div>
+                </div>
+                <div class="balance-card">
+                    <div class="balance-label">&#128202; Total P/L</div>
+                    <div class="balance-value" id="totalPL">&#8377;0</div>
+                    <div class="balance-change" id="plPercent">0% return</div>
+                </div>
+            </div>
+
+            <!-- Candlestick Chart Section -->
+            <div class="chart-container">
+                <div class="chart-header">
+                    <div>
+                        <h2 class="chart-title" id="chartStockTitle">Reliance Industries</h2>
+                        <div id="chartStockInfo" style="font-size: 0.875rem; color: var(--text-secondary);">
+                            <span id="chartStockSymbol">RELIANCE</span> |
+                            O: <span id="chartOpen">0</span> |
+                            H: <span id="chartHigh">0</span> |
+                            L: <span id="chartLow">0</span> |
+                            C: <span id="chartClose" style="font-weight: 600;">0</span>
+                            <span id="chartChange" style="margin-left: 0.5rem;"></span>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <select id="stockSelector" class="form-select" style="width: auto; min-width: 150px;">
+                            <!-- Populated by JavaScript -->
+                        </select>
+                        <div class="chart-tabs">
+                            <button class="chart-tab active" data-period="1H">1H</button>
+                            <button class="chart-tab" data-period="1D">1D</button>
+                            <button class="chart-tab" data-period="1W">1W</button>
+                            <button class="chart-tab" data-period="1M">1M</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="candlestickChartContainer" style="width: 100%; height: 350px;"></div>
+            </div>
+
+            <!-- Stock Watchlist -->
+            <div class="card mt-3">
+                <div class="card-header">
+                    <h3 class="card-title">Stock Watchlist</h3>
+                    <span class="badge" style="background: var(--accent-success);">LIVE</span>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Stock</th>
+                                <th>Price</th>
+                                <th>Change</th>
+                                <th>Day High</th>
+                                <th>Day Low</th>
+                                <th>Volume</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="stocksWatchlist">
+                            <!-- Populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="card mt-3">
+                <div class="card-header">
+                    <h3 class="card-title">Quick Actions</h3>
+                </div>
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <a href="trade.html" class="btn btn-primary">Buy Stocks</a>
+                    <a href="portfolio.html" class="btn btn-secondary">View Portfolio</a>
+                    <a href="history.html" class="btn btn-secondary">Trade History</a>
+                </div>
+            </div>
+
+            <!-- Recent Trades -->
+            <div class="card mt-3">
+                <div class="card-header">
+                    <h3 class="card-title">Recent Trades</h3>
+                    <a href="history.html" class="nav-link" style="padding: 0;">View All</a>
+                </div>
+                <div id="recentTrades" class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Stock</th>
+                                <th>Type</th>
+                                <th>Qty</th>
+                                <th>Price</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recentTradesBody">
+                            <!-- Populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+                <div id="noTrades" class="empty-state hidden">
+                    <div class="empty-state-icon">&#128203;</div>
+                    <h3>No trades yet</h3>
+                    <p>Start trading to see your recent activity here.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="copyright">
+                    &#169; 2026 TradeVerse. A CS College Project.
+                </div>
+                <div class="footer-links">
+                    <a href="../index.html" class="footer-link">Home</a>
+                    <a href="trade.html" class="footer-link">Trade</a>
+                    <a href="portfolio.html" class="footer-link">Portfolio</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/data.js"></script>
+    <script src="../js/candlestick.js"></script>
+    <script src="../js/dashboard.js"></script>
+</body>
+</html>
