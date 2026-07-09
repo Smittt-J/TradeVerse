@@ -1,21 +1,23 @@
 /**
- * TradeVerse - Portfolio Module
+ * TradeNest - Portfolio Module
  * Handles portfolio display and management
+ *
+ * FIXES APPLIED:
+ *  1. Removed dynamic data.js injection + setTimeout hack (data.js is now a
+ *     proper <script> tag in portfolio.html, so it's guaranteed loaded first).
+ *  2. Fixed typo: totalPLEElement -> totalPLElement (was throwing ReferenceError,
+ *     which silently aborted loadPortfolioData and left all summary cards blank).
+ *  3. Added startPriceEngine() so currentPrice values are live when P/L is computed.
  */
-
-// Load dependencies
-const portfolioDataScript = document.createElement('script');
-portfolioDataScript.src = '../js/data.js';
-document.head.appendChild(portfolioDataScript);
 
 // Initialize portfolio page
 document.addEventListener('DOMContentLoaded', function () {
     if (!checkAuth()) return;
 
-    // Wait for data script to load
-    setTimeout(function () {
-        initializePortfolioPage();
-    }, 100);
+    // Start live price engine so current prices are available
+    startPriceEngine();
+
+    initializePortfolioPage();
 });
 
 /**
@@ -51,8 +53,10 @@ function loadPortfolioData(email) {
     document.getElementById('currentValue').textContent = formatCurrency(stats.currentValue);
 
     const totalPLElement = document.getElementById('totalPL');
-    totalPLEElement.textContent = (stats.profitLoss >= 0 ? '+' : '') + formatCurrency(stats.profitLoss);
-    totalPLEElement.style.color = stats.profitLoss >= 0 ? 'var(--accent-success)' : 'var(--accent-danger)';
+    if (totalPLElement) {
+        totalPLElement.textContent = (stats.profitLoss >= 0 ? '+' : '') + formatCurrency(stats.profitLoss);
+        totalPLElement.style.color = stats.profitLoss >= 0 ? 'var(--accent-success)' : 'var(--accent-danger)';
+    }
 }
 
 /**
@@ -67,13 +71,13 @@ function loadHoldingsTable(email) {
     if (!tbody) return;
 
     if (holdings.length === 0) {
-        tableContainer.classList.add('hidden');
-        noHoldings.classList.remove('hidden');
+        if (tableContainer) tableContainer.classList.add('hidden');
+        if (noHoldings) noHoldings.classList.remove('hidden');
         return;
     }
 
-    tableContainer.classList.remove('hidden');
-    noHoldings.classList.add('hidden');
+    if (tableContainer) tableContainer.classList.remove('hidden');
+    if (noHoldings) noHoldings.classList.add('hidden');
 
     const currentStocks = getStocks();
 
@@ -111,8 +115,10 @@ function loadPortfolioSummary(email) {
     const stats = calculatePortfolioStats(email);
     if (!stats) return;
 
-    document.getElementById('numStocks').textContent = stats.numStocks;
-    document.getElementById('totalShares').textContent = stats.totalShares;
+    const numStocksEl = document.getElementById('numStocks');
+    const totalSharesEl = document.getElementById('totalShares');
+    if (numStocksEl) numStocksEl.textContent = stats.numStocks;
+    if (totalSharesEl) totalSharesEl.textContent = stats.totalShares;
 
     // Find best and worst performers
     const holdings = getHoldings(email);
@@ -138,12 +144,26 @@ function loadPortfolioSummary(email) {
     const bestElement = document.getElementById('bestPerformer');
     const worstElement = document.getElementById('worstPerformer');
 
-    if (bestPerformer.symbol !== '--') {
-        bestElement.textContent = bestPerformer.symbol + ' (+' + bestPerformer.plPercent.toFixed(2) + '%)';
+    if (bestElement) {
+        if (bestPerformer.symbol !== '--') {
+            const sign = bestPerformer.plPercent >= 0 ? '+' : '';
+            bestElement.textContent = bestPerformer.symbol + ' (' + sign + bestPerformer.plPercent.toFixed(2) + '%)';
+            bestElement.style.color = bestPerformer.plPercent >= 0 ? 'var(--accent-success)' : 'var(--accent-danger)';
+        } else {
+            bestElement.textContent = '--';
+        }
     }
 
-    if (worstPerformer.symbol !== '--') {
-        worstElement.textContent = worstPerformer.symbol + ' (' + worstPerformer.plPercent.toFixed(2) + '%)';
-        worstElement.style.color = 'var(--accent-danger)';
+    // Only show a distinct worst performer when 2+ different stocks are held.
+    // With a single stock it would duplicate the best performer, which is misleading.
+    if (worstElement) {
+        if (holdings.length > 1 && worstPerformer.symbol !== '--') {
+            const sign = worstPerformer.plPercent >= 0 ? '+' : '';
+            worstElement.textContent = worstPerformer.symbol + ' (' + sign + worstPerformer.plPercent.toFixed(2) + '%)';
+            worstElement.style.color = worstPerformer.plPercent >= 0 ? 'var(--accent-success)' : 'var(--accent-danger)';
+        } else {
+            worstElement.textContent = '--';
+            worstElement.style.color = '';
+        }
     }
 }
